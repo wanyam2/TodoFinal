@@ -1,0 +1,58 @@
+.TodoList .list_wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+}
+
+.search {
+    padding: 10px 40px 30px 40px;
+    display: flex;
+    justify-content: center; /* 가로 중앙 정렬 */
+}
+
+
+.TodoList {
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid rgba(150, 147, 147, 0.247);
+}
+
+/*.searchContainer {*/
+/*    display: flex;*/
+/*}*/
+
+
+.searchbar {
+    width: 100%; /* 부모 요소(.search)의 100% 너비를 사용하도록 변경 */
+    border: 2px solid pink;
+    border-radius: 10px;
+    padding: 8px;
+    font-size: 16px;
+}
+
+.searchbar::placeholder {
+    color: #BE2457;
+}
+
+.searchButton {
+    margin-left: 10px;
+}
+
+.TodoList input:focus{
+
+    outline: none;
+    border: 2px solid #D24C75;
+
+
+}
+
+.searchButton {
+    background-color: pink;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    padding: 10px 16px;
+    cursor: pointer;
+}
