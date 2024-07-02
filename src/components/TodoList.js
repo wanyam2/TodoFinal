@@ -1,26 +1,25 @@
-import {useState} from "react";
+import { useState } from "react";
 import TodoItem from './TodoItem';
 import "./TodoList.css";
 
-
-const TodoList = ({todo, onUpdate, onDelete}) => {
+const TodoList = ({ todos = [], onUpdate, onDelete }) => {
     const [search, setSearch] = useState("");
 
     const onChangeSearch = (e) => {
         setSearch(e.target.value);
     };
+
     const handleSearch = () => {
         const searchResult = getSearchResult();
         console.log("검색 결과:", searchResult);
     };
 
-
     const getSearchResult = () => {
         return search === ""
-            ? todo
-            : todo.filter((it) =>
-
-                it.content && it.content.toLowerCase().includes(search.toLowerCase()));
+            ? todos
+            : todos.filter((it) =>
+                it.content && it.content.toLowerCase().includes(search.toLowerCase())
+            );
     };
 
     return (
@@ -36,15 +35,17 @@ const TodoList = ({todo, onUpdate, onDelete}) => {
                     🔍
                 </button>
             </div>
-            <div className='list_wrapper'>
-                {getSearchResult().map((it) => (
+            <div className="list_wrapper">
+                {todos.map((todo) => (
                     <TodoItem
-                        key={it.id}
-                        {...it}
+                        key={todo.id}
+                        id={todo.id}
+                        content={todo.content}
+                        isDone={todo.isDone}
                         onUpdate={onUpdate}
                         onDelete={onDelete}
                     />
-                ))}
+                    ))}
             </div>
         </div>
     );

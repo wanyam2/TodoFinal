@@ -1,32 +1,44 @@
 import axios from 'axios';
 
-const getAllTodos = async () => {
-    const url = '/todos';
-    const response = await axios.get(url)
-    return response.data;
-};
-
-const createTodo = async (todo) => {
-    const url = '/todos';
-    const response = await axios.post(url, todo);
-    return response.data;
-};
-
-const updateTodo = async (id, updatedTodo) => {
-    const url = '/todos/' + id;
-    const response = await axios.patch(url, updatedTodo);
-    return response.data;
-};
-
-const deleteTodo = async (id) => {
-    const url = '/todos/' + id;
-    const response = await axios.delete(url);
-    return response.data;
-};
+const API_BASE_URL = 'http://localhost:3001'; // 변경
 
 export const TodoAPI = {
-    getAllTodos,
-    createTodo,
-    updateTodo,
-    deleteTodo,
-}
+    getAllTodos: async () => {
+        try {
+            const response = await axios.get(`${API_BASE_URL}/todos`);
+            return response.data;
+        } catch (error) {
+            console.error('Failed to fetch todos:', error);
+            throw error;
+        }
+    },
+
+    createTodo: async (todo) => {
+        try {
+            const response = await axios.post(`${API_BASE_URL}/todos`, todo);
+            return response.data;
+        } catch (error) {
+            console.error('Failed to create todo:', error);
+            throw error;
+        }
+    },
+
+    updateTodo: async (id, updatedTodo) => {
+        try {
+            const response = await axios.patch(`${API_BASE_URL}/todos/${id}`, updatedTodo);
+            return response.data;
+        } catch (error) {
+            console.error('Failed to update todo:', error);
+            throw error;
+        }
+    },
+
+    deleteTodo: async (id) => {
+        try {
+            await axios.delete(`${API_BASE_URL}/todos/${id}`);
+        } catch (error) {
+            console.error('Failed to delete todo:', error);
+            throw error;
+        }
+    }
+};

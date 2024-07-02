@@ -8,12 +8,12 @@ const initData = [
     { id: 5, title: "Fifth  Todo", status: "pending" },
 ];
 
-const initialize = () => {
-    // todoData를 초기화한다.
-    TodoData.todoData = [...initData];
-};
+// const initialize = () => {
+//     // todoData를 초기화한다.
+//     TodoData.todoData = [...initData];
+// };
 
 export const TodoData = {
     todoData,
-    initialize,
+    // initialize,
 };

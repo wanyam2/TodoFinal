@@ -2,11 +2,11 @@ import './App.css';
 import Header from "./components/Header";
 import TodoEditor from "./components/TodoEditor";
 import TodoList from "./components/TodoList";
-import {TodoAPI} from "./api/todoApi";
-import {useEffect, useRef, useState} from "react";
+import { TodoAPI } from "./api/todoApi";
+import { useEffect, useRef, useState } from "react";
 
 function App() {
-    const [todo, setTodo] = useState([]);
+    const [todos, setTodos] = useState([]);
     const idRef = useRef(0);
 
     // TodoList를 불러오는 비동기 함수
@@ -24,7 +24,7 @@ function App() {
             // 생성일 기준으로 정렬
             newTodos.sort((a, b) => b.createdDate - a.createdDate);
             // 상태 업데이트
-            setTodo(newTodos);
+            setTodos(newTodos);
             // 가장 큰 id 값에 1을 더하여 idRef의 현재 값을 설정
             if (todos.length > 0) {
                 idRef.current = Math.max(...todos.map(todo => todo.id)) + 1;
@@ -33,8 +33,7 @@ function App() {
             // 오류가 발생 시 로그 출력
             console.error('Failed to load todos:', error);
         }
-
-    }
+    };
 
     // 컴포넌트가 처음 마운트될 때 할 일 목록 불러오기
     useEffect(() => {
@@ -55,7 +54,7 @@ function App() {
             // 새로운 할 일을 서버에 저장
             const newTodo = await TodoAPI.createTodo(newItem);
             // 상태를 업데이트하여 새 할 일을 추가
-            setTodo([newTodo, ...todo]);
+            setTodos(prevTodos => [newTodo, ...prevTodos]); // 불변성을 유지하며 상태 업데이트
             // idRef 값 증가
             idRef.current += 1;
         } catch (error) {
@@ -67,13 +66,13 @@ function App() {
     // 수정
     const onUpdate = async (targetId) => {
         try {
-            const updatedTodos = todo.map(it => {
+            const updatedTodos = todos.map(it => {
                 if (it.id === targetId) {
                     return { ...it, isDone: !it.isDone }; // 완료 상태 토글
                 }
                 return it;
             });
-            setTodo(updatedTodos); // 상태 업데이트
+            setTodos(updatedTodos); // 상태 업데이트
             // 변경된 할 일을 서버에 저장
             const targetTodo = updatedTodos.find(it => it.id === targetId);
             const updatedTodo = await TodoAPI.updateTodo(targetId, targetTodo);
@@ -88,7 +87,7 @@ function App() {
     const onDelete = async (targetId) => {
         try {
             // 상태를 업데이트하여 해당 id의 할 일 제거
-            setTodo(todo.filter(it => it.id !== targetId));
+            setTodos(todos.filter(it => it.id !== targetId));
             // 서버에서 해당 할 일을 삭제
             await TodoAPI.deleteTodo(targetId);
         } catch (error) {
@@ -99,9 +98,9 @@ function App() {
 
     return (
         <div className="App">
-            <Header/>
-            <TodoList todo={todo} onUpdate={onUpdate} onDelete={onDelete}/>
-            <TodoEditor onCreate={onCreate}/>
+            <Header />
+            <TodoList todos={todos} onUpdate={onUpdate} onDelete={onDelete} />
+            <TodoEditor onCreate={onCreate} />
         </div>
     );
 }

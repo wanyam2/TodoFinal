@@ -3,11 +3,11 @@ import React from "react";
 import { FaTrash } from "react-icons/fa";
 
 const TodoItem = ({ id, content, isDone, onUpdate, onDelete }) => {
-    const onChangeCheckbox = () => {
+    const handleUpdate = () => {
         onUpdate(id);
     };
 
-    const onClickDelete = () => {
+    const handleDelete = () => {
         onDelete(id);
     };
 
@@ -18,10 +18,10 @@ const TodoItem = ({ id, content, isDone, onUpdate, onDelete }) => {
             </div>
             <div className="title_col">{content}</div>
             <div className="delete_col">
-                <FaTrash onClick={onClickDelete}></FaTrash>
+                <FaTrash onClick={handleDelete}></FaTrash>
             </div>
             <div className="checkbox_col">
-                <input checked={isDone} type="checkbox" onChange={onChangeCheckbox} />
+                <input checked={isDone} type="checkbox" onChange={handleUpdate} />
             </div>
         </div>
     );
